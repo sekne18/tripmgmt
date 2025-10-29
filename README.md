@@ -55,9 +55,9 @@ The service worker initialization code is commented out by default. To enable it
 
 ```html
 <script>
-  if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('./service-worker.js').then(function () {
-      console.log('Service Worker Registered');
+  if ("serviceWorker" in navigator) {
+    navigator.serviceWorker.register("./service-worker.js").then(function () {
+      console.log("Service Worker Registered");
     });
   }
 </script>

@@ -1,7 +1,12 @@
-import axios from 'axios';
-import { createAsyncThunk, createSlice, isPending, isRejected } from '@reduxjs/toolkit';
+import axios from "axios";
+import {
+  createAsyncThunk,
+  createSlice,
+  isPending,
+  isRejected,
+} from "@reduxjs/toolkit";
 
-import { serializeAxiosError } from 'app/shared/reducers/reducer.utils';
+import { serializeAxiosError } from "app/shared/reducers/reducer.utils";
 
 const initialState = {
   loading: false,
@@ -12,24 +17,28 @@ const initialState = {
 
 export type PasswordResetState = Readonly<typeof initialState>;
 
-const apiUrl = 'api/account/reset-password';
+const apiUrl = "api/account/reset-password";
 // Actions
 
 export const handlePasswordResetInit = createAsyncThunk(
-  'passwordReset/reset_password_init',
+  "passwordReset/reset_password_init",
   // If the content-type isn't set that way, axios will try to encode the body and thus modify the data sent to the server.
-  async (mail: string) => axios.post(`${apiUrl}/init`, mail, { headers: { 'Content-Type': 'text/plain' } }),
+  async (mail: string) =>
+    axios.post(`${apiUrl}/init`, mail, {
+      headers: { "Content-Type": "text/plain" },
+    }),
   { serializeError: serializeAxiosError },
 );
 
 export const handlePasswordResetFinish = createAsyncThunk(
-  'passwordReset/reset_password_finish',
-  async (data: { key: string; newPassword: string }) => axios.post(`${apiUrl}/finish`, data),
+  "passwordReset/reset_password_finish",
+  async (data: { key: string; newPassword: string }) =>
+    axios.post(`${apiUrl}/finish`, data),
   { serializeError: serializeAxiosError },
 );
 
 export const PasswordResetSlice = createSlice({
-  name: 'passwordReset',
+  name: "passwordReset",
   initialState: initialState as PasswordResetState,
   reducers: {
     reset() {
@@ -42,22 +51,30 @@ export const PasswordResetSlice = createSlice({
         ...initialState,
         loading: false,
         resetPasswordSuccess: true,
-        successMessage: 'Check your email for details on how to reset your password.',
+        successMessage:
+          "Check your email for details on how to reset your password.",
       }))
       .addCase(handlePasswordResetFinish.fulfilled, () => ({
         ...initialState,
         loading: false,
         resetPasswordSuccess: true,
-        successMessage: "Your password couldn't be reset. Remember a password request is only valid for 24 hours.",
+        successMessage:
+          "Your password couldn't be reset. Remember a password request is only valid for 24 hours.",
       }))
-      .addMatcher(isPending(handlePasswordResetInit, handlePasswordResetFinish), state => {
-        state.loading = true;
-      })
-      .addMatcher(isRejected(handlePasswordResetInit, handlePasswordResetFinish), () => ({
-        ...initialState,
-        loading: false,
-        resetPasswordFailure: true,
-      }));
+      .addMatcher(
+        isPending(handlePasswordResetInit, handlePasswordResetFinish),
+        (state) => {
+          state.loading = true;
+        },
+      )
+      .addMatcher(
+        isRejected(handlePasswordResetInit, handlePasswordResetFinish),
+        () => ({
+          ...initialState,
+          loading: false,
+          resetPasswordFailure: true,
+        }),
+      );
   },
 });
 

@@ -1,24 +1,24 @@
-import React, { useEffect } from 'react';
-import { Link, useParams } from 'react-router-dom';
-import { Badge, Button, Row } from 'reactstrap';
-import { TextFormat } from 'react-jhipster';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import React, { useEffect } from "react";
+import { Link, useParams } from "react-router-dom";
+import { Badge, Button, Row } from "reactstrap";
+import { TextFormat } from "react-jhipster";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import { APP_DATE_FORMAT } from 'app/config/constants';
+import { APP_DATE_FORMAT } from "app/config/constants";
 
-import { useAppDispatch, useAppSelector } from 'app/config/store';
-import { getUser } from './user-management.reducer';
+import { useAppDispatch, useAppSelector } from "app/config/store";
+import { getUser } from "./user-management.reducer";
 
 export const UserManagementDetail = () => {
   const dispatch = useAppDispatch();
 
-  const { login } = useParams<'login'>();
+  const { login } = useParams<"login">();
 
   useEffect(() => {
     dispatch(getUser(login));
   }, []);
 
-  const user = useAppSelector(state => state.userManagement.user);
+  const user = useAppSelector((state) => state.userManagement.user);
 
   return (
     <div>
@@ -30,7 +30,11 @@ export const UserManagementDetail = () => {
           <dt>Login</dt>
           <dd>
             <span>{user.login}</span>&nbsp;
-            {user.activated ? <Badge color="success">Activated</Badge> : <Badge color="danger">Deactivated</Badge>}
+            {user.activated ? (
+              <Badge color="success">Activated</Badge>
+            ) : (
+              <Badge color="danger">Deactivated</Badge>
+            )}
           </dd>
           <dt>First name</dt>
           <dd>{user.firstName}</dd>
@@ -41,13 +45,27 @@ export const UserManagementDetail = () => {
           <dt>Created by</dt>
           <dd>{user.createdBy}</dd>
           <dt>Created date</dt>
-          <dd>{user.createdDate ? <TextFormat value={user.createdDate} type="date" format={APP_DATE_FORMAT} blankOnInvalid /> : null}</dd>
+          <dd>
+            {user.createdDate ? (
+              <TextFormat
+                value={user.createdDate}
+                type="date"
+                format={APP_DATE_FORMAT}
+                blankOnInvalid
+              />
+            ) : null}
+          </dd>
           <dt>Modified by</dt>
           <dd>{user.lastModifiedBy}</dd>
           <dt>Modified date</dt>
           <dd>
             {user.lastModifiedDate ? (
-              <TextFormat value={user.lastModifiedDate} type="date" format={APP_DATE_FORMAT} blankOnInvalid />
+              <TextFormat
+                value={user.lastModifiedDate}
+                type="date"
+                format={APP_DATE_FORMAT}
+                blankOnInvalid
+              />
             ) : null}
           </dd>
           <dt>Profiles</dt>
@@ -65,7 +83,8 @@ export const UserManagementDetail = () => {
         </dl>
       </Row>
       <Button tag={Link} to="/admin/user-management" replace color="info">
-        <FontAwesomeIcon icon="arrow-left" /> <span className="d-none d-md-inline">Back</span>
+        <FontAwesomeIcon icon="arrow-left" />{" "}
+        <span className="d-none d-md-inline">Back</span>
       </Button>
     </div>
   );

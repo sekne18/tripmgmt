@@ -1,9 +1,9 @@
-import React, { useEffect } from 'react';
-import { Link, useSearchParams } from 'react-router-dom';
-import { Alert, Col, Row } from 'reactstrap';
+import React, { useEffect } from "react";
+import { Link, useSearchParams } from "react-router-dom";
+import { Alert, Col, Row } from "reactstrap";
 
-import { useAppDispatch, useAppSelector } from 'app/config/store';
-import { activateAction, reset } from './activate.reducer';
+import { useAppDispatch, useAppSelector } from "app/config/store";
+import { activateAction, reset } from "./activate.reducer";
 
 const successAlert = (
   <Alert color="success">
@@ -17,7 +17,8 @@ const successAlert = (
 
 const failureAlert = (
   <Alert color="danger">
-    <strong>Your user could not be activated.</strong> Please use the registration form to sign up.
+    <strong>Your user could not be activated.</strong> Please use the
+    registration form to sign up.
   </Alert>
 );
 
@@ -27,7 +28,7 @@ export const ActivatePage = () => {
   const [searchParams] = useSearchParams();
 
   useEffect(() => {
-    const key = searchParams.get('key');
+    const key = searchParams.get("key");
 
     dispatch(activateAction(key));
     return () => {
@@ -35,7 +36,9 @@ export const ActivatePage = () => {
     };
   }, []);
 
-  const { activationSuccess, activationFailure } = useAppSelector(state => state.activate);
+  const { activationSuccess, activationFailure } = useAppSelector(
+    (state) => state.activate,
+  );
 
   return (
     <div>

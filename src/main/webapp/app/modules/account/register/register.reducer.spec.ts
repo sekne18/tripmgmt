@@ -1,10 +1,10 @@
-import axios from 'axios';
-import sinon from 'sinon';
-import { configureStore } from '@reduxjs/toolkit';
+import axios from "axios";
+import sinon from "sinon";
+import { configureStore } from "@reduxjs/toolkit";
 
-import register, { handleRegister, reset } from './register.reducer';
+import register, { handleRegister, reset } from "./register.reducer";
 
-describe('Creating account tests', () => {
+describe("Creating account tests", () => {
   const initialState = {
     loading: false,
     registrationSuccess: false,
@@ -13,42 +13,52 @@ describe('Creating account tests', () => {
     successMessage: null,
   };
 
-  it('should return the initial state', () => {
-    expect(register(undefined, { type: '' })).toEqual({
+  it("should return the initial state", () => {
+    expect(register(undefined, { type: "" })).toEqual({
       ...initialState,
     });
   });
 
-  it('should detect a request', () => {
+  it("should detect a request", () => {
     expect(register(undefined, { type: handleRegister.pending.type })).toEqual({
       ...initialState,
       loading: true,
     });
   });
 
-  it('should handle RESET', () => {
+  it("should handle RESET", () => {
     expect(
-      register({ loading: true, registrationSuccess: true, registrationFailure: true, errorMessage: '', successMessage: '' }, reset()),
+      register(
+        {
+          loading: true,
+          registrationSuccess: true,
+          registrationFailure: true,
+          errorMessage: "",
+          successMessage: "",
+        },
+        reset(),
+      ),
     ).toEqual({
       ...initialState,
     });
   });
 
-  it('should handle CREATE_ACCOUNT success', () => {
+  it("should handle CREATE_ACCOUNT success", () => {
     expect(
       register(undefined, {
         type: handleRegister.fulfilled.type,
-        payload: 'fake payload',
+        payload: "fake payload",
       }),
     ).toEqual({
       ...initialState,
       registrationSuccess: true,
-      successMessage: 'Registration saved! Please check your email for confirmation.',
+      successMessage:
+        "Registration saved! Please check your email for confirmation.",
     });
   });
 
-  it('should handle CREATE_ACCOUNT failure', () => {
-    const error = { message: 'fake error' };
+  it("should handle CREATE_ACCOUNT failure", () => {
+    const error = { message: "fake error" };
     expect(
       register(undefined, {
         type: handleRegister.rejected.type,
@@ -61,10 +71,10 @@ describe('Creating account tests', () => {
     });
   });
 
-  describe('Actions', () => {
+  describe("Actions", () => {
     let store;
 
-    const resolvedObject = { value: 'whatever' };
+    const resolvedObject = { value: "whatever" };
     const getState = jest.fn();
     const dispatch = jest.fn();
     const extra = {};
@@ -75,19 +85,22 @@ describe('Creating account tests', () => {
       axios.post = sinon.stub().returns(Promise.resolve(resolvedObject));
     });
 
-    it('dispatches CREATE_ACCOUNT_PENDING and CREATE_ACCOUNT_FULFILLED actions', async () => {
-      const arg = { login: '', email: '', password: '' };
+    it("dispatches CREATE_ACCOUNT_PENDING and CREATE_ACCOUNT_FULFILLED actions", async () => {
+      const arg = { login: "", email: "", password: "" };
 
       const result = await handleRegister(arg)(dispatch, getState, extra);
 
       const pendingAction = dispatch.mock.calls[0][0];
-      expect(pendingAction.meta.requestStatus).toBe('pending');
+      expect(pendingAction.meta.requestStatus).toBe("pending");
       expect(handleRegister.fulfilled.match(result)).toBe(true);
       expect(result.payload).toBe(resolvedObject);
     });
-    it('dispatches RESET actions', async () => {
+    it("dispatches RESET actions", async () => {
       await store.dispatch(reset());
-      expect(store.getState()).toEqual([expect.any(Object), expect.objectContaining(reset())]);
+      expect(store.getState()).toEqual([
+        expect.any(Object),
+        expect.objectContaining(reset()),
+      ]);
     });
   });
 });

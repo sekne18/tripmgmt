@@ -1,15 +1,15 @@
-import React from 'react';
-import { MemoryRouter, Route, Routes } from 'react-router';
-import { render } from '@testing-library/react';
-import configureStore from 'redux-mock-store';
-import { Provider } from 'react-redux';
+import React from "react";
+import { MemoryRouter, Route, Routes } from "react-router";
+import { render } from "@testing-library/react";
+import configureStore from "redux-mock-store";
+import { Provider } from "react-redux";
 
-import { AUTHORITIES } from 'app/config/constants';
-import PrivateRoute, { hasAnyAuthority } from './private-route';
+import { AUTHORITIES } from "app/config/constants";
+import PrivateRoute, { hasAnyAuthority } from "./private-route";
 
 const TestComp = () => <div>Test</div>;
 
-describe('private-route component', () => {
+describe("private-route component", () => {
   const mockStore = configureStore();
   const wrapper = (Elem: JSX.Element, authentication) => {
     const store = mockStore({ authentication });
@@ -21,7 +21,7 @@ describe('private-route component', () => {
   };
 
   // All tests will go here
-  it('Should throw error when falsy children are provided', () => {
+  it("Should throw error when falsy children are provided", () => {
     const originalError = console.error;
     console.error = jest.fn();
     expect(() =>
@@ -36,7 +36,7 @@ describe('private-route component', () => {
     console.error = originalError;
   });
 
-  it('Should render an error message when the user has no authorities', () => {
+  it("Should render an error message when the user has no authorities", () => {
     const { container } = wrapper(
       <PrivateRoute>
         <TestComp />
@@ -49,10 +49,12 @@ describe('private-route component', () => {
         },
       },
     );
-    expect(container.innerHTML).toMatch(/<div class="insufficient-authority"><div class="alert alert-danger">.*<\/div><\/div>/);
+    expect(container.innerHTML).toMatch(
+      /<div class="insufficient-authority"><div class="alert alert-danger">.*<\/div><\/div>/,
+    );
   });
 
-  it('Should render a route for the component provided when authenticated', () => {
+  it("Should render a route for the component provided when authenticated", () => {
     const { container } = wrapper(
       <PrivateRoute>
         <TestComp />
@@ -61,14 +63,14 @@ describe('private-route component', () => {
         isAuthenticated: true,
         sessionHasBeenFetched: true,
         account: {
-          authorities: ['ADMIN'],
+          authorities: ["ADMIN"],
         },
       },
     );
-    expect(container.innerHTML).toEqual('<div>Test</div>');
+    expect(container.innerHTML).toEqual("<div>Test</div>");
   });
 
-  it('Should redirect when not authenticated', () => {
+  it("Should redirect when not authenticated", () => {
     const { container } = wrapper(
       <Routes>
         <Route
@@ -85,39 +87,70 @@ describe('private-route component', () => {
         isAuthenticated: false,
         sessionHasBeenFetched: true,
         account: {
-          authorities: ['ADMIN'],
+          authorities: ["ADMIN"],
         },
       },
     );
-    expect(container.innerHTML).not.toEqual('<div>Test</div>');
-    expect(container.innerHTML).toEqual('<div>Login</div>');
+    expect(container.innerHTML).not.toEqual("<div>Test</div>");
+    expect(container.innerHTML).toEqual("<div>Login</div>");
   });
 });
 
-describe('hasAnyAuthority', () => {
+describe("hasAnyAuthority", () => {
   // All tests will go here
-  it('Should return false when authorities is invalid', () => {
+  it("Should return false when authorities is invalid", () => {
     expect(hasAnyAuthority(undefined, undefined)).toEqual(false);
     expect(hasAnyAuthority(null, [])).toEqual(false);
     expect(hasAnyAuthority([], [])).toEqual(false);
     expect(hasAnyAuthority([], [AUTHORITIES.USER])).toEqual(false);
   });
 
-  it('Should return true when authorities is valid and hasAnyAuthorities is empty', () => {
+  it("Should return true when authorities is valid and hasAnyAuthorities is empty", () => {
     expect(hasAnyAuthority([AUTHORITIES.USER], [])).toEqual(true);
   });
 
-  it('Should return true when authorities is valid and hasAnyAuthorities contains an authority', () => {
-    expect(hasAnyAuthority([AUTHORITIES.USER], [AUTHORITIES.USER])).toEqual(true);
-    expect(hasAnyAuthority([AUTHORITIES.USER, AUTHORITIES.ADMIN], [AUTHORITIES.USER])).toEqual(true);
-    expect(hasAnyAuthority([AUTHORITIES.USER, AUTHORITIES.ADMIN], [AUTHORITIES.USER, AUTHORITIES.ADMIN])).toEqual(true);
-    expect(hasAnyAuthority([AUTHORITIES.USER, AUTHORITIES.ADMIN], [AUTHORITIES.USER, 'ROLEADMIN'])).toEqual(true);
-    expect(hasAnyAuthority([AUTHORITIES.USER, AUTHORITIES.ADMIN], [AUTHORITIES.ADMIN])).toEqual(true);
+  it("Should return true when authorities is valid and hasAnyAuthorities contains an authority", () => {
+    expect(hasAnyAuthority([AUTHORITIES.USER], [AUTHORITIES.USER])).toEqual(
+      true,
+    );
+    expect(
+      hasAnyAuthority(
+        [AUTHORITIES.USER, AUTHORITIES.ADMIN],
+        [AUTHORITIES.USER],
+      ),
+    ).toEqual(true);
+    expect(
+      hasAnyAuthority(
+        [AUTHORITIES.USER, AUTHORITIES.ADMIN],
+        [AUTHORITIES.USER, AUTHORITIES.ADMIN],
+      ),
+    ).toEqual(true);
+    expect(
+      hasAnyAuthority(
+        [AUTHORITIES.USER, AUTHORITIES.ADMIN],
+        [AUTHORITIES.USER, "ROLEADMIN"],
+      ),
+    ).toEqual(true);
+    expect(
+      hasAnyAuthority(
+        [AUTHORITIES.USER, AUTHORITIES.ADMIN],
+        [AUTHORITIES.ADMIN],
+      ),
+    ).toEqual(true);
   });
 
-  it('Should return false when authorities is valid and hasAnyAuthorities does not contain an authority', () => {
-    expect(hasAnyAuthority([AUTHORITIES.USER], [AUTHORITIES.ADMIN])).toEqual(false);
-    expect(hasAnyAuthority([AUTHORITIES.USER, AUTHORITIES.ADMIN], ['ROLE_USERSS'])).toEqual(false);
-    expect(hasAnyAuthority([AUTHORITIES.USER, AUTHORITIES.ADMIN], ['ROLEUSER', 'ROLEADMIN'])).toEqual(false);
+  it("Should return false when authorities is valid and hasAnyAuthorities does not contain an authority", () => {
+    expect(hasAnyAuthority([AUTHORITIES.USER], [AUTHORITIES.ADMIN])).toEqual(
+      false,
+    );
+    expect(
+      hasAnyAuthority([AUTHORITIES.USER, AUTHORITIES.ADMIN], ["ROLE_USERSS"]),
+    ).toEqual(false);
+    expect(
+      hasAnyAuthority(
+        [AUTHORITIES.USER, AUTHORITIES.ADMIN],
+        ["ROLEUSER", "ROLEADMIN"],
+      ),
+    ).toEqual(false);
   });
 });

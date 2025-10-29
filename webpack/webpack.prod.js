@@ -1,27 +1,27 @@
-const webpack = require('webpack');
-const webpackMerge = require('webpack-merge').merge;
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const WorkboxPlugin = require('workbox-webpack-plugin');
-const TerserPlugin = require('terser-webpack-plugin');
-const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
-const sass = require('sass');
+const webpack = require("webpack");
+const webpackMerge = require("webpack-merge").merge;
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const WorkboxPlugin = require("workbox-webpack-plugin");
+const TerserPlugin = require("terser-webpack-plugin");
+const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
+const sass = require("sass");
 
-const utils = require('./utils.js');
-const commonConfig = require('./webpack.common.js');
+const utils = require("./utils.js");
+const commonConfig = require("./webpack.common.js");
 
-const ENV = 'production';
+const ENV = "production";
 
 module.exports = async () =>
   webpackMerge(await commonConfig({ env: ENV }), {
     // devtool: 'source-map', // Enable source maps. Please note that this will slow down the build
     mode: ENV,
     entry: {
-      main: './src/main/webapp/app/index',
+      main: "./src/main/webapp/app/index",
     },
     output: {
-      path: utils.root('build/resources/main/static/'),
-      filename: '[name].[contenthash:8].js',
-      chunkFilename: '[name].[chunkhash:8].chunk.js',
+      path: utils.root("build/resources/main/static/"),
+      filename: "[name].[contenthash:8].js",
+      chunkFilename: "[name].[chunkhash:8].chunk.js",
     },
     module: {
       rules: [
@@ -31,18 +31,18 @@ module.exports = async () =>
             {
               loader: MiniCssExtractPlugin.loader,
               options: {
-                publicPath: '../',
+                publicPath: "../",
               },
             },
             {
-              loader: 'css-loader',
+              loader: "css-loader",
               options: { url: false },
             },
             {
-              loader: 'postcss-loader',
+              loader: "postcss-loader",
             },
             {
-              loader: 'sass-loader',
+              loader: "sass-loader",
               options: { implementation: sass },
             },
           ],
@@ -96,8 +96,8 @@ module.exports = async () =>
     plugins: [
       new MiniCssExtractPlugin({
         // Options similar to the same options in webpackOptions.output
-        filename: 'content/[name].[contenthash].css',
-        chunkFilename: 'content/[name].[chunkhash].css',
+        filename: "content/[name].[contenthash].css",
+        chunkFilename: "content/[name].[chunkhash].css",
       }),
       new webpack.LoaderOptionsPlugin({
         minimize: true,

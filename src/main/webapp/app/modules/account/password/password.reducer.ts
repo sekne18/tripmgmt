@@ -1,7 +1,7 @@
-import axios from 'axios';
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import axios from "axios";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
-import { serializeAxiosError } from 'app/shared/reducers/reducer.utils';
+import { serializeAxiosError } from "app/shared/reducers/reducer.utils";
 
 const initialState = {
   loading: false,
@@ -13,7 +13,7 @@ const initialState = {
 
 export type PasswordState = Readonly<typeof initialState>;
 
-const apiUrl = 'api/account';
+const apiUrl = "api/account";
 
 interface IPassword {
   currentPassword: string;
@@ -23,13 +23,14 @@ interface IPassword {
 // Actions
 
 export const savePassword = createAsyncThunk(
-  'password/update_password',
-  async (password: IPassword) => axios.post(`${apiUrl}/change-password`, password),
+  "password/update_password",
+  async (password: IPassword) =>
+    axios.post(`${apiUrl}/change-password`, password),
   { serializeError: serializeAxiosError },
 );
 
 export const PasswordSlice = createSlice({
-  name: 'password',
+  name: "password",
   initialState: initialState as PasswordState,
   reducers: {
     reset() {
@@ -38,22 +39,23 @@ export const PasswordSlice = createSlice({
   },
   extraReducers(builder) {
     builder
-      .addCase(savePassword.pending, state => {
+      .addCase(savePassword.pending, (state) => {
         state.errorMessage = null;
         state.updateSuccess = false;
         state.loading = true;
       })
-      .addCase(savePassword.rejected, state => {
+      .addCase(savePassword.rejected, (state) => {
         state.loading = false;
         state.updateSuccess = false;
         state.updateFailure = true;
-        state.errorMessage = 'An error has occurred! The password could not be changed.';
+        state.errorMessage =
+          "An error has occurred! The password could not be changed.";
       })
-      .addCase(savePassword.fulfilled, state => {
+      .addCase(savePassword.fulfilled, (state) => {
         state.loading = false;
         state.updateSuccess = true;
         state.updateFailure = false;
-        state.successMessage = 'Password changed!';
+        state.successMessage = "Password changed!";
       });
   },
 });

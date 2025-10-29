@@ -1,13 +1,27 @@
-import React from 'react';
-import { ValidatedField } from 'react-jhipster';
-import { Alert, Button, Col, Form, Modal, ModalBody, ModalFooter, ModalHeader, Row } from 'reactstrap';
-import { Link } from 'react-router-dom';
-import { type FieldError, useForm } from 'react-hook-form';
+import React from "react";
+import { ValidatedField } from "react-jhipster";
+import {
+  Alert,
+  Button,
+  Col,
+  Form,
+  Modal,
+  ModalBody,
+  ModalFooter,
+  ModalHeader,
+  Row,
+} from "reactstrap";
+import { Link } from "react-router-dom";
+import { type FieldError, useForm } from "react-hook-form";
 
 export interface ILoginModalProps {
   showModal: boolean;
   loginError: boolean;
-  handleLogin: (username: string, password: string, rememberMe: boolean) => void;
+  handleLogin: (
+    username: string,
+    password: string,
+    rememberMe: boolean,
+  ) => void;
   handleClose: () => void;
 }
 
@@ -20,16 +34,22 @@ const LoginModal = (props: ILoginModalProps) => {
     handleSubmit,
     register,
     formState: { errors, touchedFields },
-  } = useForm({ mode: 'onTouched' });
+  } = useForm({ mode: "onTouched" });
 
   const { loginError, handleClose } = props;
 
-  const handleLoginSubmit = e => {
+  const handleLoginSubmit = (e) => {
     handleSubmit(login)(e);
   };
 
   return (
-    <Modal isOpen={props.showModal} toggle={handleClose} backdrop="static" id="login-page" autoFocus={false}>
+    <Modal
+      isOpen={props.showModal}
+      toggle={handleClose}
+      backdrop="static"
+      id="login-page"
+      autoFocus={false}
+    >
       <Form onSubmit={handleLoginSubmit}>
         <ModalHeader id="login-title" data-cy="loginTitle" toggle={handleClose}>
           Sign in
@@ -39,7 +59,8 @@ const LoginModal = (props: ILoginModalProps) => {
             <Col md="12">
               {loginError ? (
                 <Alert color="danger" data-cy="loginError">
-                  <strong>Failed to sign in!</strong> Please check your credentials and try again.
+                  <strong>Failed to sign in!</strong> Please check your
+                  credentials and try again.
                 </Alert>
               ) : null}
             </Col>
@@ -51,7 +72,7 @@ const LoginModal = (props: ILoginModalProps) => {
                 required
                 autoFocus
                 data-cy="username"
-                validate={{ required: 'Username cannot be empty!' }}
+                validate={{ required: "Username cannot be empty!" }}
                 register={register}
                 error={errors.username as FieldError}
                 isTouched={touchedFields.username}
@@ -63,28 +84,39 @@ const LoginModal = (props: ILoginModalProps) => {
                 placeholder="Your password"
                 required
                 data-cy="password"
-                validate={{ required: 'Password cannot be empty!' }}
+                validate={{ required: "Password cannot be empty!" }}
                 register={register}
                 error={errors.password as FieldError}
                 isTouched={touchedFields.password}
               />
-              <ValidatedField name="rememberMe" type="checkbox" check label="Remember me" value={true} register={register} />
+              <ValidatedField
+                name="rememberMe"
+                type="checkbox"
+                check
+                label="Remember me"
+                value={true}
+                register={register}
+              />
             </Col>
           </Row>
           <div className="mt-1">&nbsp;</div>
           <Alert color="warning">
-            <Link to="/account/reset/request" data-cy="forgetYourPasswordSelector">
+            <Link
+              to="/account/reset/request"
+              data-cy="forgetYourPasswordSelector"
+            >
               Did you forget your password?
             </Link>
           </Alert>
           <Alert color="warning">
-            <span>You don&apos;t have an account yet?</span> <Link to="/account/register">Register a new account</Link>
+            <span>You don&apos;t have an account yet?</span>{" "}
+            <Link to="/account/register">Register a new account</Link>
           </Alert>
         </ModalBody>
         <ModalFooter>
           <Button color="secondary" onClick={handleClose} tabIndex={1}>
             Cancel
-          </Button>{' '}
+          </Button>{" "}
           <Button color="primary" type="submit" data-cy="submit">
             Sign in
           </Button>

@@ -1,15 +1,29 @@
-import React, { useEffect, useState } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { Badge, Button, Table } from 'reactstrap';
-import { JhiItemCount, JhiPagination, TextFormat, getPaginationState } from 'react-jhipster';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSort, faSortDown, faSortUp } from '@fortawesome/free-solid-svg-icons';
+import React, { useEffect, useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Badge, Button, Table } from "reactstrap";
+import {
+  JhiItemCount,
+  JhiPagination,
+  TextFormat,
+  getPaginationState,
+} from "react-jhipster";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faSort,
+  faSortDown,
+  faSortUp,
+} from "@fortawesome/free-solid-svg-icons";
 
-import { APP_DATE_FORMAT } from 'app/config/constants';
-import { ASC, DESC, ITEMS_PER_PAGE, SORT } from 'app/shared/util/pagination.constants';
-import { overridePaginationStateWithQueryParams } from 'app/shared/util/entity-utils';
-import { useAppDispatch, useAppSelector } from 'app/config/store';
-import { getUsersAsAdmin, updateUser } from './user-management.reducer';
+import { APP_DATE_FORMAT } from "app/config/constants";
+import {
+  ASC,
+  DESC,
+  ITEMS_PER_PAGE,
+  SORT,
+} from "app/shared/util/pagination.constants";
+import { overridePaginationStateWithQueryParams } from "app/shared/util/entity-utils";
+import { useAppDispatch, useAppSelector } from "app/config/store";
+import { getUsersAsAdmin, updateUser } from "./user-management.reducer";
 
 export const UserManagement = () => {
   const dispatch = useAppDispatch();
@@ -18,7 +32,10 @@ export const UserManagement = () => {
   const navigate = useNavigate();
 
   const [pagination, setPagination] = useState(
-    overridePaginationStateWithQueryParams(getPaginationState(pageLocation, ITEMS_PER_PAGE, 'id'), pageLocation.search),
+    overridePaginationStateWithQueryParams(
+      getPaginationState(pageLocation, ITEMS_PER_PAGE, "id"),
+      pageLocation.search,
+    ),
   );
 
   const getUsersFromProps = () => {
@@ -41,10 +58,10 @@ export const UserManagement = () => {
 
   useEffect(() => {
     const params = new URLSearchParams(pageLocation.search);
-    const page = params.get('page');
+    const page = params.get("page");
     const sortParam = params.get(SORT);
     if (page && sortParam) {
-      const sortSplit = sortParam.split(',');
+      const sortSplit = sortParam.split(",");
       setPagination({
         ...pagination,
         activePage: +page,
@@ -54,14 +71,14 @@ export const UserManagement = () => {
     }
   }, [pageLocation.search]);
 
-  const sort = p => () =>
+  const sort = (p) => () =>
     setPagination({
       ...pagination,
       order: pagination.order === ASC ? DESC : ASC,
       sort: p,
     });
 
-  const handlePagination = currentPage =>
+  const handlePagination = (currentPage) =>
     setPagination({
       ...pagination,
       activePage: currentPage,
@@ -71,7 +88,7 @@ export const UserManagement = () => {
     getUsersFromProps();
   };
 
-  const toggleActive = user => () => {
+  const toggleActive = (user) => () => {
     dispatch(
       updateUser({
         ...user,
@@ -80,10 +97,10 @@ export const UserManagement = () => {
     );
   };
 
-  const account = useAppSelector(state => state.authentication.account);
-  const users = useAppSelector(state => state.userManagement.users);
-  const totalItems = useAppSelector(state => state.userManagement.totalItems);
-  const loading = useAppSelector(state => state.userManagement.loading);
+  const account = useAppSelector((state) => state.authentication.account);
+  const users = useAppSelector((state) => state.userManagement.users);
+  const totalItems = useAppSelector((state) => state.userManagement.totalItems);
+  const loading = useAppSelector((state) => state.userManagement.loading);
   const getSortIconByFieldName = (fieldName: string) => {
     const sortFieldName = pagination.sort;
     const order = pagination.order;
@@ -98,7 +115,12 @@ export const UserManagement = () => {
       <h2 id="user-management-page-heading" data-cy="userManagementPageHeading">
         Users
         <div className="d-flex justify-content-end">
-          <Button className="me-2" color="info" onClick={handleSyncList} disabled={loading}>
+          <Button
+            className="me-2"
+            color="info"
+            onClick={handleSyncList}
+            disabled={loading}
+          >
             <FontAwesomeIcon icon="sync" spin={loading} /> Refresh list
           </Button>
           <Link to="new" className="btn btn-primary jh-create-entity">
@@ -109,25 +131,36 @@ export const UserManagement = () => {
       <Table responsive striped>
         <thead>
           <tr>
-            <th className="hand" onClick={sort('id')}>
-              ID <FontAwesomeIcon icon={getSortIconByFieldName('id')} />
+            <th className="hand" onClick={sort("id")}>
+              ID <FontAwesomeIcon icon={getSortIconByFieldName("id")} />
             </th>
-            <th className="hand" onClick={sort('login')}>
-              Login <FontAwesomeIcon icon={getSortIconByFieldName('login')} />
+            <th className="hand" onClick={sort("login")}>
+              Login <FontAwesomeIcon icon={getSortIconByFieldName("login")} />
             </th>
-            <th className="hand" onClick={sort('email')}>
-              Email <FontAwesomeIcon icon={getSortIconByFieldName('email')} />
+            <th className="hand" onClick={sort("email")}>
+              Email <FontAwesomeIcon icon={getSortIconByFieldName("email")} />
             </th>
             <th />
             <th>Profiles</th>
-            <th className="hand" onClick={sort('createdDate')}>
-              Created date <FontAwesomeIcon icon={getSortIconByFieldName('createdDate')} />
+            <th className="hand" onClick={sort("createdDate")}>
+              Created date{" "}
+              <FontAwesomeIcon icon={getSortIconByFieldName("createdDate")} />
             </th>
-            <th className="hand" onClick={sort('lastModifiedBy')}>
-              Modified by <FontAwesomeIcon icon={getSortIconByFieldName('lastModifiedBy')} />
+            <th className="hand" onClick={sort("lastModifiedBy")}>
+              Modified by{" "}
+              <FontAwesomeIcon
+                icon={getSortIconByFieldName("lastModifiedBy")}
+              />
             </th>
-            <th id="modified-date-sort" className="hand" onClick={sort('lastModifiedDate')}>
-              Modified date <FontAwesomeIcon icon={getSortIconByFieldName('lastModifiedDate')} />
+            <th
+              id="modified-date-sort"
+              className="hand"
+              onClick={sort("lastModifiedDate")}
+            >
+              Modified date{" "}
+              <FontAwesomeIcon
+                icon={getSortIconByFieldName("lastModifiedDate")}
+              />
             </th>
             <th />
           </tr>
@@ -163,24 +196,50 @@ export const UserManagement = () => {
                   : null}
               </td>
               <td>
-                {user.createdDate ? <TextFormat value={user.createdDate} type="date" format={APP_DATE_FORMAT} blankOnInvalid /> : null}
+                {user.createdDate ? (
+                  <TextFormat
+                    value={user.createdDate}
+                    type="date"
+                    format={APP_DATE_FORMAT}
+                    blankOnInvalid
+                  />
+                ) : null}
               </td>
               <td>{user.lastModifiedBy}</td>
               <td>
                 {user.lastModifiedDate ? (
-                  <TextFormat value={user.lastModifiedDate} type="date" format={APP_DATE_FORMAT} blankOnInvalid />
+                  <TextFormat
+                    value={user.lastModifiedDate}
+                    type="date"
+                    format={APP_DATE_FORMAT}
+                    blankOnInvalid
+                  />
                 ) : null}
               </td>
               <td className="text-end">
                 <div className="btn-group flex-btn-group-container">
                   <Button tag={Link} to={user.login} color="info" size="sm">
-                    <FontAwesomeIcon icon="eye" /> <span className="d-none d-md-inline">View</span>
+                    <FontAwesomeIcon icon="eye" />{" "}
+                    <span className="d-none d-md-inline">View</span>
                   </Button>
-                  <Button tag={Link} to={`${user.login}/edit`} color="primary" size="sm">
-                    <FontAwesomeIcon icon="pencil-alt" /> <span className="d-none d-md-inline">Edit</span>
+                  <Button
+                    tag={Link}
+                    to={`${user.login}/edit`}
+                    color="primary"
+                    size="sm"
+                  >
+                    <FontAwesomeIcon icon="pencil-alt" />{" "}
+                    <span className="d-none d-md-inline">Edit</span>
                   </Button>
-                  <Button tag={Link} to={`${user.login}/delete`} color="danger" size="sm" disabled={account.login === user.login}>
-                    <FontAwesomeIcon icon="trash" /> <span className="d-none d-md-inline">Delete</span>
+                  <Button
+                    tag={Link}
+                    to={`${user.login}/delete`}
+                    color="danger"
+                    size="sm"
+                    disabled={account.login === user.login}
+                  >
+                    <FontAwesomeIcon icon="trash" />{" "}
+                    <span className="d-none d-md-inline">Delete</span>
                   </Button>
                 </div>
               </td>
@@ -189,9 +248,13 @@ export const UserManagement = () => {
         </tbody>
       </Table>
       {totalItems ? (
-        <div className={users?.length > 0 ? '' : 'd-none'}>
+        <div className={users?.length > 0 ? "" : "d-none"}>
           <div className="justify-content-center d-flex">
-            <JhiItemCount page={pagination.activePage} total={totalItems} itemsPerPage={pagination.itemsPerPage} />
+            <JhiItemCount
+              page={pagination.activePage}
+              total={totalItems}
+              itemsPerPage={pagination.itemsPerPage}
+            />
           </div>
           <div className="justify-content-center d-flex">
             <JhiPagination
@@ -204,7 +267,7 @@ export const UserManagement = () => {
           </div>
         </div>
       ) : (
-        ''
+        ""
       )}
     </div>
   );

@@ -1,14 +1,14 @@
-import './home.scss';
+import "./home.scss";
 
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React from "react";
+import { Link } from "react-router-dom";
 
-import { Alert, Col, Row } from 'reactstrap';
+import { Alert, Col, Row } from "reactstrap";
 
-import { useAppSelector } from 'app/config/store';
+import { useAppSelector } from "app/config/store";
 
 export const Home = () => {
-  const account = useAppSelector(state => state.authentication.account);
+  const account = useAppSelector((state) => state.authentication.account);
 
   return (
     <Row>
@@ -20,7 +20,9 @@ export const Home = () => {
         <p className="lead">This is your homepage</p>
         {account?.login ? (
           <div>
-            <Alert color="success">You are logged in as user &quot;{account.login}&quot;.</Alert>
+            <Alert color="success">
+              You are logged in as user &quot;{account.login}&quot;.
+            </Alert>
           </div>
         ) : (
           <div>
@@ -31,8 +33,9 @@ export const Home = () => {
                 sign in
               </Link>
               , you can try the default accounts:
-              <br />- Administrator (login=&quot;admin&quot; and password=&quot;admin&quot;) <br />- User (login=&quot;user&quot; and
-              password=&quot;user&quot;).
+              <br />- Administrator (login=&quot;admin&quot; and
+              password=&quot;admin&quot;) <br />- User (login=&quot;user&quot;
+              and password=&quot;user&quot;).
             </Alert>
 
             <Alert color="warning">
@@ -47,35 +50,59 @@ export const Home = () => {
 
         <ul>
           <li>
-            <a href="https://www.jhipster.tech/" target="_blank" rel="noopener noreferrer">
+            <a
+              href="https://www.jhipster.tech/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               JHipster homepage
             </a>
           </li>
           <li>
-            <a href="https://stackoverflow.com/tags/jhipster/info" target="_blank" rel="noopener noreferrer">
+            <a
+              href="https://stackoverflow.com/tags/jhipster/info"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               JHipster on Stack Overflow
             </a>
           </li>
           <li>
-            <a href="https://github.com/jhipster/generator-jhipster/issues?state=open" target="_blank" rel="noopener noreferrer">
+            <a
+              href="https://github.com/jhipster/generator-jhipster/issues?state=open"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               JHipster bug tracker
             </a>
           </li>
           <li>
-            <a href="https://gitter.im/jhipster/generator-jhipster" target="_blank" rel="noopener noreferrer">
+            <a
+              href="https://gitter.im/jhipster/generator-jhipster"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               JHipster public chat room
             </a>
           </li>
           <li>
-            <a href="https://twitter.com/jhipster" target="_blank" rel="noopener noreferrer">
+            <a
+              href="https://twitter.com/jhipster"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               follow @jhipster on Twitter
             </a>
           </li>
         </ul>
 
         <p>
-          If you like JHipster, don&apos;t forget to give us a star on{' '}
-          <a href="https://github.com/jhipster/generator-jhipster" target="_blank" rel="noopener noreferrer">
+          If you like JHipster, don&apos;t forget to give us a star on{" "}
+          <a
+            href="https://github.com/jhipster/generator-jhipster"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             GitHub
           </a>
           !

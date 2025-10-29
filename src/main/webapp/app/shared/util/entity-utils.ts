@@ -1,5 +1,5 @@
-import pick from 'lodash/pick';
-import { IPaginationBaseState, ISortBaseState } from 'react-jhipster';
+import pick from "lodash/pick";
+import { IPaginationBaseState, ISortBaseState } from "react-jhipster";
 
 /**
  * Removes fields with an 'id' field that equals ''.
@@ -8,8 +8,12 @@ import { IPaginationBaseState, ISortBaseState } from 'react-jhipster';
  *
  * @param entity Object to clean.
  */
-export const cleanEntity = entity => {
-  const keysToKeep = Object.keys(entity).filter(k => !(entity[k] instanceof Object) || (entity[k].id !== '' && entity[k].id !== -1));
+export const cleanEntity = (entity) => {
+  const keysToKeep = Object.keys(entity).filter(
+    (k) =>
+      !(entity[k] instanceof Object) ||
+      (entity[k].id !== "" && entity[k].id !== -1),
+  );
 
   return pick(entity, keysToKeep);
 };
@@ -20,25 +24,32 @@ export const cleanEntity = entity => {
  * @param idList Elements to map.
  * @returns The list of objects with mapped ids.
  */
-export const mapIdList = (idList: ReadonlyArray<any>) => idList?.filter((id: any) => id !== '').map((id: any) => ({ id }));
+export const mapIdList = (idList: ReadonlyArray<any>) =>
+  idList?.filter((id: any) => id !== "").map((id: any) => ({ id }));
 
-export const overrideSortStateWithQueryParams = (paginationBaseState: ISortBaseState, locationSearch: string) => {
+export const overrideSortStateWithQueryParams = (
+  paginationBaseState: ISortBaseState,
+  locationSearch: string,
+) => {
   const params = new URLSearchParams(locationSearch);
-  const sort = params.get('sort');
+  const sort = params.get("sort");
   if (sort) {
-    const sortSplit = sort.split(',');
+    const sortSplit = sort.split(",");
     paginationBaseState.sort = sortSplit[0];
     paginationBaseState.order = sortSplit[1];
   }
   return paginationBaseState;
 };
 
-export const overridePaginationStateWithQueryParams = (paginationBaseState: IPaginationBaseState, locationSearch: string) => {
+export const overridePaginationStateWithQueryParams = (
+  paginationBaseState: IPaginationBaseState,
+  locationSearch: string,
+) => {
   const sortedPaginationState: IPaginationBaseState = <IPaginationBaseState>(
     overrideSortStateWithQueryParams(paginationBaseState, locationSearch)
   );
   const params = new URLSearchParams(locationSearch);
-  const page = params.get('page');
+  const page = params.get("page");
   if (page) {
     sortedPaginationState.activePage = +page;
   }

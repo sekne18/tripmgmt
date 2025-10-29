@@ -1,7 +1,7 @@
-import axios from 'axios';
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import axios from "axios";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
-import { serializeAxiosError } from 'app/shared/reducers/reducer.utils';
+import { serializeAxiosError } from "app/shared/reducers/reducer.utils";
 
 const initialState = {
   loading: false,
@@ -16,13 +16,18 @@ export type RegisterState = Readonly<typeof initialState>;
 // Actions
 
 export const handleRegister = createAsyncThunk(
-  'register/create_account',
-  async (data: { login: string; email: string; password: string; langKey?: string }) => axios.post<any>('api/register', data),
+  "register/create_account",
+  async (data: {
+    login: string;
+    email: string;
+    password: string;
+    langKey?: string;
+  }) => axios.post<any>("api/register", data),
   { serializeError: serializeAxiosError },
 );
 
 export const RegisterSlice = createSlice({
-  name: 'register',
+  name: "register",
   initialState: initialState as RegisterState,
   reducers: {
     reset() {
@@ -31,7 +36,7 @@ export const RegisterSlice = createSlice({
   },
   extraReducers(builder) {
     builder
-      .addCase(handleRegister.pending, state => {
+      .addCase(handleRegister.pending, (state) => {
         state.loading = true;
       })
       .addCase(handleRegister.rejected, (state, action) => ({
@@ -42,7 +47,8 @@ export const RegisterSlice = createSlice({
       .addCase(handleRegister.fulfilled, () => ({
         ...initialState,
         registrationSuccess: true,
-        successMessage: 'Registration saved! Please check your email for confirmation.',
+        successMessage:
+          "Registration saved! Please check your email for confirmation.",
       }));
   },
 });

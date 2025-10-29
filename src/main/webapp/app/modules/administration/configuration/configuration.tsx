@@ -1,33 +1,38 @@
-import React, { useEffect, useState } from 'react';
-import { Badge, Col, Input, Row, Table } from 'reactstrap';
+import React, { useEffect, useState } from "react";
+import { Badge, Col, Input, Row, Table } from "reactstrap";
 
-import { useAppDispatch, useAppSelector } from 'app/config/store';
-import { getConfigurations, getEnv } from '../administration.reducer';
+import { useAppDispatch, useAppSelector } from "app/config/store";
+import { getConfigurations, getEnv } from "../administration.reducer";
 
 export const ConfigurationPage = () => {
-  const [filter, setFilter] = useState('');
+  const [filter, setFilter] = useState("");
   const [reversePrefix, setReversePrefix] = useState(false);
   const [reverseProperties, setReverseProperties] = useState(false);
   const dispatch = useAppDispatch();
 
-  const configuration = useAppSelector(state => state.administration.configuration);
+  const configuration = useAppSelector(
+    (state) => state.administration.configuration,
+  );
 
   useEffect(() => {
     dispatch(getConfigurations());
     dispatch(getEnv());
   }, []);
 
-  const changeFilter = evt => setFilter(evt.target.value);
+  const changeFilter = (evt) => setFilter(evt.target.value);
 
-  const envFilterFn = configProp => configProp.toUpperCase().includes(filter.toUpperCase());
+  const envFilterFn = (configProp) =>
+    configProp.toUpperCase().includes(filter.toUpperCase());
 
-  const propsFilterFn = configProp => configProp.prefix.toUpperCase().includes(filter.toUpperCase());
+  const propsFilterFn = (configProp) =>
+    configProp.prefix.toUpperCase().includes(filter.toUpperCase());
 
   const changeReversePrefix = () => setReversePrefix(!reversePrefix);
 
-  const changeReverseProperties = () => setReverseProperties(!reverseProperties);
+  const changeReverseProperties = () =>
+    setReverseProperties(!reverseProperties);
 
-  const getContextList = contexts =>
+  const getContextList = (contexts) =>
     Object.values(contexts)
       .map((v: any) => v.beans)
       .reduce((acc, e) => ({ ...acc, ...e }));
@@ -41,7 +46,14 @@ export const ConfigurationPage = () => {
       <h2 id="configuration-page-heading" data-cy="configurationPageHeading">
         Configuration
       </h2>
-      <span>Filter (by prefix)</span> <Input type="search" value={filter} onChange={changeFilter} name="search" id="search" />
+      <span>Filter (by prefix)</span>{" "}
+      <Input
+        type="search"
+        value={filter}
+        onChange={changeFilter}
+        name="search"
+        id="search"
+      />
       <label>Spring configuration</label>
       <Table className="table table-striped table-bordered table-responsive d-table">
         <thead>
@@ -58,14 +70,18 @@ export const ConfigurationPage = () => {
                   <tr key={propIndex}>
                     <td>{property.prefix}</td>
                     <td>
-                      {Object.keys(property.properties).map((propKey, index) => (
-                        <Row key={index}>
-                          <Col md="4">{propKey}</Col>
-                          <Col md="8">
-                            <Badge className="float-end bg-secondary break">{JSON.stringify(property.properties[propKey])}</Badge>
-                          </Col>
-                        </Row>
-                      ))}
+                      {Object.keys(property.properties).map(
+                        (propKey, index) => (
+                          <Row key={index}>
+                            <Col md="4">{propKey}</Col>
+                            <Col md="8">
+                              <Badge className="float-end bg-secondary break">
+                                {JSON.stringify(property.properties[propKey])}
+                              </Badge>
+                            </Col>
+                          </Row>
+                        ),
+                      )}
                     </td>
                   </tr>
                 ))
@@ -92,7 +108,9 @@ export const ConfigurationPage = () => {
                       <tr key={propIndex}>
                         <td className="break">{propKey}</td>
                         <td className="break">
-                          <span className="float-end badge bg-secondary break">{envKey.properties[propKey].value}</span>
+                          <span className="float-end badge bg-secondary break">
+                            {envKey.properties[propKey].value}
+                          </span>
                         </td>
                       </tr>
                     ))}

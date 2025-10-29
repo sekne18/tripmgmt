@@ -1,7 +1,7 @@
-import axios from 'axios';
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import axios from "axios";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
-import { serializeAxiosError } from 'app/shared/reducers/reducer.utils';
+import { serializeAxiosError } from "app/shared/reducers/reducer.utils";
 
 const initialState = {
   activationSuccess: false,
@@ -12,12 +12,16 @@ export type ActivateState = Readonly<typeof initialState>;
 
 // Actions
 
-export const activateAction = createAsyncThunk('activate/activate_account', async (key: string) => axios.get(`api/activate?key=${key}`), {
-  serializeError: serializeAxiosError,
-});
+export const activateAction = createAsyncThunk(
+  "activate/activate_account",
+  async (key: string) => axios.get(`api/activate?key=${key}`),
+  {
+    serializeError: serializeAxiosError,
+  },
+);
 
 export const ActivateSlice = createSlice({
-  name: 'activate',
+  name: "activate",
   initialState: initialState as ActivateState,
   reducers: {
     reset() {
@@ -27,10 +31,10 @@ export const ActivateSlice = createSlice({
   extraReducers(builder) {
     builder
       .addCase(activateAction.pending, () => initialState)
-      .addCase(activateAction.rejected, state => {
+      .addCase(activateAction.rejected, (state) => {
         state.activationFailure = true;
       })
-      .addCase(activateAction.fulfilled, state => {
+      .addCase(activateAction.fulfilled, (state) => {
         state.activationSuccess = true;
       });
   },

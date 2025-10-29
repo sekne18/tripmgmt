@@ -1,7 +1,14 @@
-import React from 'react';
-import { Button, Modal, ModalBody, ModalFooter, ModalHeader, Table } from 'reactstrap';
+import React from "react";
+import {
+  Button,
+  Modal,
+  ModalBody,
+  ModalFooter,
+  ModalHeader,
+  Table,
+} from "reactstrap";
 
-const formatDiskSpaceOutput = rawValue => {
+const formatDiskSpaceOutput = (rawValue) => {
   // Should display storage space in a human readable unit
   const val = rawValue / 1073741824;
   if (val > 1) {
@@ -14,7 +21,12 @@ const formatDiskSpaceOutput = rawValue => {
 const HealthModal = ({ handleClose, healthObject, showModal }) => {
   const data = healthObject.details || {};
   return (
-    <Modal isOpen={showModal} modalTransition={{ timeout: 20 }} backdropTransition={{ timeout: 10 }} toggle={handleClose}>
+    <Modal
+      isOpen={showModal}
+      modalTransition={{ timeout: 20 }}
+      backdropTransition={{ timeout: 10 }}
+      toggle={handleClose}
+    >
       <ModalHeader toggle={handleClose}>{healthObject.name}</ModalHeader>
       <ModalBody>
         <Table bordered>
@@ -28,7 +40,11 @@ const HealthModal = ({ handleClose, healthObject, showModal }) => {
             {Object.keys(data).map((key, index) => (
               <tr key={index}>
                 <td>{key}</td>
-                <td>{healthObject.name === 'diskSpace' ? formatDiskSpaceOutput(data[key]) : JSON.stringify(data[key])}</td>
+                <td>
+                  {healthObject.name === "diskSpace"
+                    ? formatDiskSpaceOutput(data[key])
+                    : JSON.stringify(data[key])}
+                </td>
               </tr>
             ))}
           </tbody>

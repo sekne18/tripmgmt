@@ -1,19 +1,19 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 
-import { Badge, Button, Col, Row, Table } from 'reactstrap';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Badge, Button, Col, Row, Table } from "reactstrap";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import { useAppDispatch, useAppSelector } from 'app/config/store';
-import { getSystemHealth } from '../administration.reducer';
-import HealthModal from './health-modal';
+import { useAppDispatch, useAppSelector } from "app/config/store";
+import { getSystemHealth } from "../administration.reducer";
+import HealthModal from "./health-modal";
 
 export const HealthPage = () => {
   const [healthObject, setHealthObject] = useState({});
   const [showModal, setShowModal] = useState(false);
   const dispatch = useAppDispatch();
 
-  const health = useAppSelector(state => state.administration.health);
-  const isFetching = useAppSelector(state => state.administration.loading);
+  const health = useAppSelector((state) => state.administration.health);
+  const isFetching = useAppSelector((state) => state.administration.loading);
 
   useEffect(() => {
     dispatch(getSystemHealth());
@@ -30,11 +30,18 @@ export const HealthPage = () => {
     setHealthObject({ ...healthObj, name });
   };
 
-  const getBadgeType = (status: string) => (status !== 'UP' ? 'danger' : 'success');
+  const getBadgeType = (status: string) =>
+    status !== "UP" ? "danger" : "success";
 
   const handleClose = () => setShowModal(false);
 
-  const renderModal = () => <HealthModal healthObject={healthObject} handleClose={handleClose} showModal={showModal} />;
+  const renderModal = () => (
+    <HealthModal
+      healthObject={healthObject}
+      handleClose={handleClose}
+      showModal={showModal}
+    />
+  );
 
   const data = (health || {}).components || {};
 
@@ -44,7 +51,11 @@ export const HealthPage = () => {
         Health Checks
       </h2>
       <p>
-        <Button onClick={fetchSystemHealth} color={isFetching ? 'btn btn-danger' : 'btn btn-primary'} disabled={isFetching}>
+        <Button
+          onClick={fetchSystemHealth}
+          color={isFetching ? "btn btn-danger" : "btn btn-primary"}
+          disabled={isFetching}
+        >
           <FontAwesomeIcon icon="sync" />
           &nbsp; Refresh
         </Button>
@@ -61,15 +72,22 @@ export const HealthPage = () => {
             </thead>
             <tbody>
               {Object.keys(data).map((configPropKey, configPropIndex) =>
-                configPropKey !== 'status' ? (
+                configPropKey !== "status" ? (
                   <tr key={configPropIndex}>
                     <td>{configPropKey}</td>
                     <td>
-                      <Badge color={getBadgeType(data[configPropKey].status)}>{data[configPropKey].status}</Badge>
+                      <Badge color={getBadgeType(data[configPropKey].status)}>
+                        {data[configPropKey].status}
+                      </Badge>
                     </td>
                     <td>
                       {data[configPropKey].details ? (
-                        <a onClick={getSystemHealthInfo(configPropKey, data[configPropKey])}>
+                        <a
+                          onClick={getSystemHealthInfo(
+                            configPropKey,
+                            data[configPropKey],
+                          )}
+                        >
                           <FontAwesomeIcon icon="eye" />
                         </a>
                       ) : null}

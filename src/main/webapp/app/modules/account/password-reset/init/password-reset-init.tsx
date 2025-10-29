@@ -1,10 +1,10 @@
-import React, { useEffect } from 'react';
-import { ValidatedField, ValidatedForm, isEmail } from 'react-jhipster';
-import { Alert, Button, Col, Row } from 'reactstrap';
-import { toast } from 'react-toastify';
+import React, { useEffect } from "react";
+import { ValidatedField, ValidatedForm, isEmail } from "react-jhipster";
+import { Alert, Button, Col, Row } from "reactstrap";
+import { toast } from "react-toastify";
 
-import { useAppDispatch, useAppSelector } from 'app/config/store';
-import { handlePasswordResetInit, reset } from '../password-reset.reducer';
+import { useAppDispatch, useAppSelector } from "app/config/store";
+import { handlePasswordResetInit, reset } from "../password-reset.reducer";
 
 export const PasswordResetInit = () => {
   const dispatch = useAppDispatch();
@@ -20,7 +20,9 @@ export const PasswordResetInit = () => {
     dispatch(handlePasswordResetInit(email));
   };
 
-  const successMessage = useAppSelector(state => state.passwordReset.successMessage);
+  const successMessage = useAppSelector(
+    (state) => state.passwordReset.successMessage,
+  );
 
   useEffect(() => {
     if (successMessage) {
@@ -43,10 +45,17 @@ export const PasswordResetInit = () => {
               placeholder="Your email"
               type="email"
               validate={{
-                required: { value: true, message: 'Your email is required.' },
-                minLength: { value: 5, message: 'Your email is required to be at least 5 characters.' },
-                maxLength: { value: 254, message: 'Your email cannot be longer than 50 characters.' },
-                validate: v => isEmail(v) || 'Your email is invalid.',
+                required: { value: true, message: "Your email is required." },
+                minLength: {
+                  value: 5,
+                  message:
+                    "Your email is required to be at least 5 characters.",
+                },
+                maxLength: {
+                  value: 254,
+                  message: "Your email cannot be longer than 50 characters.",
+                },
+                validate: (v) => isEmail(v) || "Your email is invalid.",
               }}
               data-cy="emailResetPassword"
             />

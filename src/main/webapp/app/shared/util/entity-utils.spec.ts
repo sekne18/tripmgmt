@@ -1,8 +1,8 @@
-import { cleanEntity, mapIdList } from './entity-utils';
+import { cleanEntity, mapIdList } from "./entity-utils";
 
-describe('Entity utils', () => {
-  describe('cleanEntity', () => {
-    it('should not remove fields with an id', () => {
+describe("Entity utils", () => {
+  describe("cleanEntity", () => {
+    it("should not remove fields with an id", () => {
       const entityA = {
         a: {
           id: 5,
@@ -10,7 +10,7 @@ describe('Entity utils', () => {
       };
       const entityB = {
         a: {
-          id: '5',
+          id: "5",
         },
       };
 
@@ -18,36 +18,40 @@ describe('Entity utils', () => {
       expect(cleanEntity({ ...entityB })).toEqual(entityB);
     });
 
-    it('should remove fields with an empty id', () => {
+    it("should remove fields with an empty id", () => {
       const entity = {
         a: {
-          id: '',
+          id: "",
         },
       };
 
       expect(cleanEntity({ ...entity })).toEqual({});
     });
 
-    it('should not remove fields that are not objects', () => {
+    it("should not remove fields that are not objects", () => {
       const entity = {
-        a: '',
+        a: "",
         b: 5,
         c: [],
-        d: '5',
+        d: "5",
       };
 
       expect(cleanEntity({ ...entity })).toEqual(entity);
     });
   });
 
-  describe('mapIdList', () => {
+  describe("mapIdList", () => {
     it("should map ids no matter the element's type", () => {
-      const ids = ['jhipster', '', 1, { key: 'value' }];
+      const ids = ["jhipster", "", 1, { key: "value" }];
 
-      expect(mapIdList(ids)).toEqual([{ id: 'jhipster' }, { id: 1 }, { id: { key: 'value' } }]);
+      expect(mapIdList(ids)).toEqual([
+        { id: "jhipster" },
+        { id: 1 },
+        { id: { key: "value" } },
+      ]);
     });
 
-    it('should return an empty array', () => {
+    it("should return an empty array", () => {
       const ids = [];
 
       expect(mapIdList(ids)).toEqual([]);

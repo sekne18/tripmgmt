@@ -1,10 +1,10 @@
-import React from 'react';
+import React from "react";
 
-import { NavItem, NavLink, NavbarBrand } from 'reactstrap';
-import { NavLink as Link } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { NavItem, NavLink, NavbarBrand } from "reactstrap";
+import { NavLink as Link } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-export const BrandIcon = props => (
+export const BrandIcon = (props) => (
   <div {...props} className="brand-icon">
     <img src="content/images/logo-jhipster.png" alt="Logo" />
   </div>
@@ -14,7 +14,9 @@ export const Brand = () => (
   <NavbarBrand tag={Link} to="/" className="brand-logo">
     <BrandIcon />
     <span className="brand-title">Tripmgmt</span>
-    <span className="navbar-version">{VERSION.toLowerCase().startsWith('v') ? VERSION : `v${VERSION}`}</span>
+    <span className="navbar-version">
+      {VERSION.toLowerCase().startsWith("v") ? VERSION : `v${VERSION}`}
+    </span>
   </NavbarBrand>
 );
 

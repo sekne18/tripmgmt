@@ -1,8 +1,14 @@
-import { toast } from 'react-toastify';
-import { isFulfilledAction, isRejectedAction } from 'app/shared/reducers/reducer.utils';
-import { isAxiosError } from 'axios';
-import { FieldErrorVM, isProblemWithMessage } from 'app/shared/jhipster/problem-details';
-import { getMessageFromHeaders } from 'app/shared/jhipster/headers';
+import { toast } from "react-toastify";
+import {
+  isFulfilledAction,
+  isRejectedAction,
+} from "app/shared/reducers/reducer.utils";
+import { isAxiosError } from "axios";
+import {
+  FieldErrorVM,
+  isProblemWithMessage,
+} from "app/shared/jhipster/problem-details";
+import { getMessageFromHeaders } from "app/shared/jhipster/headers";
 
 type ToastMessage = {
   message?: string;
@@ -13,18 +19,21 @@ const addErrorAlert = (message: ToastMessage) => {
 };
 
 const getFieldErrorsToasts = (fieldErrors: FieldErrorVM[]): ToastMessage[] =>
-  fieldErrors.map(fieldError => {
-    if (['Min', 'Max', 'DecimalMin', 'DecimalMax'].includes(fieldError.message)) {
-      fieldError.message = 'Size';
+  fieldErrors.map((fieldError) => {
+    if (
+      ["Min", "Max", "DecimalMin", "DecimalMax"].includes(fieldError.message)
+    ) {
+      fieldError.message = "Size";
     }
     // convert 'something[14].other[4].id' to 'something[].other[].id' so translations can be written to it
-    const convertedField = fieldError.field.replace(/\[\d*\]/g, '[]');
-    const fieldName = convertedField.charAt(0).toUpperCase() + convertedField.slice(1);
+    const convertedField = fieldError.field.replace(/\[\d*\]/g, "[]");
+    const fieldName =
+      convertedField.charAt(0).toUpperCase() + convertedField.slice(1);
     return { message: `Error on field "${fieldName}"` };
   });
 
 // eslint-disable-next-line complexity
-export default () => next => action => {
+export default () => (next) => (action) => {
   const { error, payload } = action;
 
   /**
@@ -43,41 +52,59 @@ export default () => next => action => {
       const { response } = error;
       if (response.status === 401) {
         // Ignore, page will be redirected to login.
-      } else if (error.config?.url?.endsWith('api/account') || error.config?.url?.endsWith('api/authenticate')) {
+      } else if (
+        error.config?.url?.endsWith("api/account") ||
+        error.config?.url?.endsWith("api/authenticate")
+      ) {
         // Ignore, authentication status check and authentication are treated differently.
       } else if (response.status === 0) {
         // connection refused, server not reachable
         addErrorAlert({
-          message: 'Server not reachable',
+          message: "Server not reachable",
         });
       } else if (response.status === 404) {
         addErrorAlert({
-          message: 'Not found',
+          message: "Not found",
         });
       } else {
         const { data } = response;
         const problem = isProblemWithMessage(data) ? data : null;
         if (problem?.fieldErrors) {
-          getFieldErrorsToasts(problem.fieldErrors).forEach(message => addErrorAlert(message));
+          getFieldErrorsToasts(problem.fieldErrors).forEach((message) =>
+            addErrorAlert(message),
+          );
         } else {
-          const { error: toastError } = getMessageFromHeaders((response.headers as any) ?? {});
+          const { error: toastError } = getMessageFromHeaders(
+            (response.headers as any) ?? {},
+          );
           if (toastError) {
             addErrorAlert({ message: toastError });
-          } else if (typeof data === 'string' && data !== '') {
+          } else if (typeof data === "string" && data !== "") {
             addErrorAlert({ message: data });
           } else {
-            toast.error(data?.detail ?? data?.message ?? data?.error ?? data?.title ?? 'Unknown error!');
+            toast.error(
+              data?.detail ??
+                data?.message ??
+                data?.error ??
+                data?.title ??
+                "Unknown error!",
+            );
           }
         }
       }
-    } else if (error.config?.url?.endsWith('api/account') && error.config?.method === 'get') {
+    } else if (
+      error.config?.url?.endsWith("api/account") &&
+      error.config?.method === "get"
+    ) {
       /* eslint-disable no-console */
-      console.log('Authentication Error: Trying to access url api/account with GET.');
+      console.log(
+        "Authentication Error: Trying to access url api/account with GET.",
+      );
     } else {
-      addErrorAlert({ message: error.message ?? 'Unknown error!' });
+      addErrorAlert({ message: error.message ?? "Unknown error!" });
     }
   } else if (error) {
-    addErrorAlert({ message: error.message ?? 'Unknown error!' });
+    addErrorAlert({ message: error.message ?? "Unknown error!" });
   }
 
   return next(action);

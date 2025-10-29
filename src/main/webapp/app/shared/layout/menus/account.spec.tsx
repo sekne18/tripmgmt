@@ -1,10 +1,10 @@
-import React from 'react';
-import { render } from '@testing-library/react';
-import { MemoryRouter } from 'react-router';
+import React from "react";
+import { render } from "@testing-library/react";
+import { MemoryRouter } from "react-router";
 
-import { AccountMenu } from './account';
+import { AccountMenu } from "./account";
 
-describe('AccountMenu', () => {
+describe("AccountMenu", () => {
   let mountedWrapper;
 
   const authenticatedWrapper = () => {
@@ -36,17 +36,17 @@ describe('AccountMenu', () => {
 
   // All tests will go here
 
-  it('Renders a authenticated AccountMenu component', () => {
+  it("Renders a authenticated AccountMenu component", () => {
     const html = authenticatedWrapper();
 
-    expect(html).not.toContain('/login');
-    expect(html).toContain('/logout');
+    expect(html).not.toContain("/login");
+    expect(html).toContain("/logout");
   });
 
-  it('Renders a guest AccountMenu component', () => {
+  it("Renders a guest AccountMenu component", () => {
     const html = guestWrapper();
 
-    expect(html).toContain('/login');
-    expect(html).not.toContain('/logout');
+    expect(html).toContain("/login");
+    expect(html).not.toContain("/logout");
   });
 });

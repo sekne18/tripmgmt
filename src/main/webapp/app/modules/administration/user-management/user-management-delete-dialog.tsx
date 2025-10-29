@@ -1,30 +1,30 @@
-import React, { useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
+import React, { useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap";
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import { useAppDispatch, useAppSelector } from 'app/config/store';
-import { deleteUser, getUser } from './user-management.reducer';
+import { useAppDispatch, useAppSelector } from "app/config/store";
+import { deleteUser, getUser } from "./user-management.reducer";
 
 export const UserManagementDeleteDialog = () => {
   const dispatch = useAppDispatch();
 
   const navigate = useNavigate();
-  const { login } = useParams<'login'>();
+  const { login } = useParams<"login">();
 
   useEffect(() => {
     dispatch(getUser(login));
   }, []);
 
-  const handleClose = event => {
+  const handleClose = (event) => {
     event.stopPropagation();
-    navigate('/admin/user-management');
+    navigate("/admin/user-management");
   };
 
-  const user = useAppSelector(state => state.userManagement.user);
+  const user = useAppSelector((state) => state.userManagement.user);
 
-  const confirmDelete = event => {
+  const confirmDelete = (event) => {
     dispatch(deleteUser(user.login));
     handleClose(event);
   };

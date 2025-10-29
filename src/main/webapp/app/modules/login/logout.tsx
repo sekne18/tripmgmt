@@ -1,10 +1,10 @@
-import React, { useLayoutEffect } from 'react';
+import React, { useLayoutEffect } from "react";
 
-import { useAppDispatch, useAppSelector } from 'app/config/store';
-import { logout } from 'app/shared/reducers/authentication';
+import { useAppDispatch, useAppSelector } from "app/config/store";
+import { logout } from "app/shared/reducers/authentication";
 
 export const Logout = () => {
-  const authentication = useAppSelector(state => state.authentication);
+  const authentication = useAppSelector((state) => state.authentication);
   const dispatch = useAppDispatch();
 
   useLayoutEffect(() => {
@@ -12,7 +12,7 @@ export const Logout = () => {
     if (authentication.logoutUrl) {
       window.location.href = authentication.logoutUrl;
     } else if (!authentication.isAuthenticated) {
-      window.location.href = '/';
+      window.location.href = "/";
     }
   });
 
