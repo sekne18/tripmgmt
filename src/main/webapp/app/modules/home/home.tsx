@@ -17,7 +17,7 @@ export const Home = () => {
       </Col>
       <Col md="9">
         <h1 className="display-4">Welcome, Java Hipster!</h1>
-        <p className="lead">This is your homepage</p>
+        <p className="lead">This is Jans homepage</p>
         {account?.login ? (
           <div>
             <Alert color="success">

@@ -1,0 +1,28 @@
+ {
+    "taskDefinition": "task-tripmgmt-demo:1",
+    "cluster": "ecs-cluster-tripmgmtdemo",
+    "loadBalancers": [
+        {
+            "targetGroupArn": "arn:aws:elasticloadbalancing:eu-north-1:060795922611:targetgroup/alb-tg-tripmgmtdemo-1/2361a45d253ee1a5",
+            "containerName": "cntr-img-tripmgmt",
+            "containerPort": 8080
+        }
+    ],
+    "desiredCount": 2,
+    "launchType": "EC2",
+    "schedulingStrategy": "REPLICA",
+    "deploymentController": {
+        "type": "CODE_DEPLOY"
+    },
+    "networkConfiguration": {
+        "awsvpcConfiguration": {
+            "subnets": [
+                "subnet-080005d63e1f4d34a","subnet-097668bbf582e705f"
+            ],
+            "securityGroups": [
+                "sg-0fdc35e0d25710c13","sg-0a03ef802ce3e0db5","sg-0e2f50859f0369bcd"
+            ],
+            "assignPublicIp": "DISABLED"
+        }
+    }
+}   
