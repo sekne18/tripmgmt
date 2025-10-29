@@ -1,0 +1,28 @@
+ {
+    "taskDefinition": "$TASK_NAME",
+    "cluster": "$ECS_CLUSTER_NAME",
+    "loadBalancers": [
+        {
+            "targetGroupArn": "$ALB_TARGET_GROUP_ARN",
+            "containerName": "cntr-img-tripmgmt",
+            "containerPort": 8080
+        }
+    ],
+    "desiredCount": 2,
+    "launchType": "EC2",
+    "schedulingStrategy": "REPLICA",
+    "deploymentController": {
+        "type": "CODE_DEPLOY"
+    },
+    "networkConfiguration": {
+        "awsvpcConfiguration": {
+            "subnets": [
+                $MULTIPLE_SUBNET_ID
+            ],
+            "securityGroups": [
+                $MULTIPLE_SG
+            ],
+            "assignPublicIp": "DISABLED"
+        }
+    }
+}   
